@@ -2,34 +2,15 @@ require("dotenv").config();
 
 const { v4: uuidv4 } = require("uuid"),
     http = require("http"),
-    url_module = require("url"),
-    fs = require("fs"),
-    chalk = require("chalk");
+    url_module = require("url");
 
-const host = process.env.HOST,
-    port = process.env.PORT;
+const   host = process.env.HOST,
+        port = process.env.PORT;
 
-const data = require("./data.json");
-
-function handleItemID(queryID) {
-    for (let item of data) {
-        if (item.id === queryID) {
-            return `${item.title}\n\n${item.message}`;
-        }
-    }
-
-    return "";
-}
-
-
-function deleteItemById(id) {
-	const index = data.findIndex((item) => item.id === id);
-	if (index !== -1) {
-		data.splice(index, 1);
-		return true;
-	}
-	return false;
-}
+const   data = require("./data.json"),
+        handleItemID = require("./itemHandler"),
+        deleteItemById = require("./dataHandler"),
+        fsWriteFile = require("./fsWriteFile");
 
 const my_server = http.createServer((req, res) => {
     const { url, method } = req,
@@ -40,8 +21,8 @@ const my_server = http.createServer((req, res) => {
         const { sort, id } = query;
 
         if (id) {
-            console.log(handleItemID(id));
-            let response_text = handleItemID(id) === "" ? "" : handleItemID(id);
+            console.log(handleItemID(id, data));
+            let response_text = handleItemID(id, data) === "" ? "" : handleItemID(id, data);
 
             if (!response_text) {
                 res.writeHead(329);
@@ -57,12 +38,12 @@ const my_server = http.createServer((req, res) => {
 
             if (sort) {
                 switch (sort) {
-                    case "upper": //по возрастанию
+                    case "upper":
                         data_copy.sort((a, b) =>
                             a.title.localeCompare(b.title)
                         );
                         break;
-                    case "lower": // по убыванию
+                    case "lower": 
                         data_copy.sort((a, b) =>
                             b.title.localeCompare(a.title)
                         );
@@ -88,81 +69,31 @@ const my_server = http.createServer((req, res) => {
 
             const newDataJSON = JSON.stringify(data, null, 2);
 
-            fs.writeFile("./data.json", newDataJSON, (err) => {
-                if (err) {
-                    console.error(
-                        chalk.bgRedBright("Error writing to data file:"),
-                        chalk.red(err)
-                    );
-                    res.writeHead(500);
-                    res.end("Internal Server Error");
-                } else {
-                    console.log(
-                        chalk.bgGreenBright("Data written to file successfully")
-                    );
-                    res.writeHead(200);
-                    res.end(JSON.stringify(newData));
-                }
-            });
+            fsWriteFile(newDataJSON, res, "Data written to file successfully", JSON.stringify(newData))
         });
     } else if (method === "DELETE" && pathname === "/") {
-        
-
         const { id } = query;
 
         if (id) {
-            const itemDeleted = deleteItemById(id);
+            const itemDeleted = deleteItemById(id, data);
             if (itemDeleted) {
                 const newDataJSON = JSON.stringify(data, null, 2);
-                fs.writeFile("./data.json", newDataJSON, (err) => {
-                    if (err) {
-                        console.error(
-                            chalk.bgRedBright("Error writing to data file:"),
-                            chalk.red(err)
-                        );
 
-                        res.writeHead(500);
-                        res.end("Internal Server Error");
-                    } else {
-                        console.log(
-                            chalk.bgGreenBright(
-                                "Data written to file successfully"
-                            )
-                        );
-
-                        res.writeHead(200);
-                        res.end("Item deleted successfully");
-                    }
-                });
+                fsWriteFile(newDataJSON, res, "Data written to file successfully", "Data file cleared successfully")
             } else {
                 res.writeHead(404);
                 res.end("Item not found");
             }
         } else {
-            fs.writeFile("./data.json", "", (err) => {
-                if (err) {
-                    console.error(
-                        chalk.bgRedBright("Error writing to data file:"),
-                        chalk.red(err)
-                    );
-                    res.writeHead(500);
-                    res.end("Internal Server Error");
-                } else {
-                    console.log(
-                        chalk.bgGreenBright("Data file cleared successfully")
-                    );
-                    res.writeHead(200);
-                    res.end("Data file cleared successfully");
-                }
-            });
-
+            fsWriteFile("", res, "Data file cleared successfully", "Item deleted successfully")
+        
             return;
         }
     } else if (method === "PUT" && pathname === "/edit") {
         const { id } = query;
         const body = [];
 
-        if (id && handleItemID(id)) {
+        if (id && handleItemID(id, data)) {
             req.on("data", (chunk) => {
                 body.push(chunk);
             }).on("end", () => {
@@ -177,28 +108,12 @@ const my_server = http.createServer((req, res) => {
 						message
 					}
 
-					deleteItemById(id);
+					deleteItemById(id, data);
 					data.push(newObject);
 
                     const newDataJSON = JSON.stringify(data, null, 2);
                     
-					fs.writeFile("./data.json", newDataJSON, (err) => {
-						if (err) {
-							console.error(
-								chalk.bgRedBright("Error writing to data file:"),
-								chalk.red(err)
-							);
-							res.writeHead(500);
-							res.end("Internal Server Error");
-						} else {
-							console.log(
-								chalk.bgGreenBright("Data file changed successfully")
-							);
-							res.writeHead(200);
-							res.end("Data file changed successfully");
-						}
-					});
-					
+                    fsWriteFile(newDataJSON, res, "Data file changed successfully", "Data file changed successfully")
 				}else{
 					res.writeHead(329);
             		res.end("Invalid data body");
@@ -214,13 +129,3 @@ const my_server = http.createServer((req, res) => {
 my_server.listen(port, host, () => {
     console.log(`Server is running on http://${host}:${port}`);
 });
-
-// Запрос на редактирование
-// api route - put /edit?id
-// @params: id
-// Данные могут передаваться не все
-
-// Не указала id
-// Указали неверный id
-// Указали id без данных
-// Указали id с данными
