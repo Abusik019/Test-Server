@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1001,
+    "name": "John",
+    "surname": "Smith",
+    "verify": true
+  },
+  {
+    "id": 1002,
+    "name": "Emily",
+    "surname": "Johnson",
+    "verify": true
+  },
+  {
+    "id": 1003,
+    "name": "Michael",
+    "surname": "Brown",
+    "verify": true
+  },
+  {
+    "id": 1004,
+    "name": "Sarah",
+    "surname": "Davis",
+    "verify": true
+  },
+  {
+    "id": 1005,
+    "name": "Daniel",
+    "surname": "Miller",
+    "verify": true
+  },
+  {
+    "id": 1006,
+    "name": "Emma",
+    "surname": "Wilson",
+    "verify": true
+  },
+  {
+    "id": 1007,
+    "name": "James",
+    "surname": "Martinez",
+    "verify": true
+  },
+  {
+    "id": 1008,
+    "name": "Olivia",
+    "surname": "Taylor",
+    "verify": true
+  },
+  {
+    "id": 1009,
+    "name": "William",
+    "surname": "Anderson",
+    "verify": true
+  },
+  {
+    "id": 1010,
+    "name": "Ava",
+    "surname": "Thomas",
+    "verify": true
+  }
+]
