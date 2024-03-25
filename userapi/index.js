@@ -1,7 +1,6 @@
 require("dotenv").config();
 
 const http = require("http"),
-    { v4: uuidv4 } = require("uuid"),
     url_module = require("url");
 
 const { findIndex, writeFile, handleItemID } = require("./utils");
@@ -190,14 +189,3 @@ const server = http.createServer((req, res) => {
 server.listen(port, host, () => {
     console.log(`Server is running on http://${host}:${port}`);
 });
-
-// Реализовать сервер с польовательскими записями(API)
-
-//    Model - {id, name, surname, verify}
-
-// 1. Просмотр всех пользователей - verify, noverify, full-data, unfinished-data
-// 2. Удаление пользователя по id
-// 3. Редактирование пользователя (можно менять имя и фамилию)
-// 4. Поддтвердить или снять верификацию (запрос одни и тот же и действие выбирается автоматически)
-
-// 5. Для всех методов проработать доп функционал (фильтрация, выборка по количеству, сортировка, удаление точечно или общее и тд)
