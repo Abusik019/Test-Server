@@ -1,62 +1,42 @@
 [
   {
-    "id": 1001,
-    "name": "John",
-    "surname": "Smith",
-    "verify": true
-  },
-  {
-    "id": 1002,
+    "id": "20896589-7f34-4dd4-8bf9-52aacc39f28a",
     "name": "Emily",
     "surname": "Johnson",
-    "verify": true
+    "verify": false
   },
   {
-    "id": 1003,
+    "id": "0a5cb9e8-ab9c-436b-87d0-569f60a0b862",
     "name": "Michael",
     "surname": "Brown",
-    "verify": true
+    "verify": false,
+    "address": {
+      "city": "Moscow",
+      "street": "Lenina 18",
+      "house_number": "4"
+    }
   },
   {
-    "id": 1004,
-    "name": "Sarah",
-    "surname": "Davis",
-    "verify": true
-  },
-  {
-    "id": 1005,
-    "name": "Daniel",
-    "surname": "Miller",
-    "verify": true
-  },
-  {
-    "id": 1006,
-    "name": "Emma",
-    "surname": "Wilson",
-    "verify": true
-  },
-  {
-    "id": 1007,
+    "id": "fb2f5990-0d8d-482b-b764-41287f9639c2",
     "name": "James",
     "surname": "Martinez",
-    "verify": true
+    "verify": false
   },
   {
-    "id": 1008,
-    "name": "Olivia",
-    "surname": "Taylor",
-    "verify": true
-  },
-  {
-    "id": 1009,
-    "name": "William",
-    "surname": "Anderson",
-    "verify": true
-  },
-  {
-    "id": 1010,
+    "id": "3d597d96-253f-4d7c-8f9e-d5dc987c5678",
     "name": "Ava",
     "surname": "Thomas",
-    "verify": true
+    "verify": false,
+    "address": {
+      "city": "Berlin",
+      "street": "Liivalaia",
+      "house_number": "27"
+    }
+  },
+  {
+    "id": "31efee5b-04eb-4860-bc67-cdf57d58295a",
+    "name": "William",
+    "surname": "Anderson",
+    "verify": false
   }
 ]
