@@ -1,42 +1,47 @@
 [
-  {
-    "title": "Important Notification",
-    "message": "Hello! This message is to inform you about the upcoming maintenance of our website. During the maintenance, access to some features may be limited. We apologize for any inconvenience this may cause and appreciate your understanding."
-  },
-  {
-    "title": "Discount on Products",
-    "message": "Dear Customer! We are pleased to inform you that we currently have a special offer on all products in our store. Get a 20% discount on your next purchase! Don't miss this opportunity to save."
-  },
-  {
-    "title": "New Service Available",
-    "message": "Hello! We are excited to announce the launch of a new service by our company. You can now take advantage of our additional services to enhance your experience with us. Thank you for your attention."
-  },
-  {
-    "title": "App Update",
-    "message": "Dear User! We would like to inform you about the release of a new update for our application. The new version includes bug fixes, performance improvements, and new features. Please update the app to enjoy the best user experience."
-  },
-  {
-    "title": "Invitation to an Event",
-    "message": "Hi! We invite you to participate in our upcoming event, which will take place next Tuesday. This is a great opportunity to meet interesting people and discuss current topics. We look forward to seeing you there!"
-  },
-  {
-    "title": "Congratulations on the Holiday!",
-    "message": "Dear Colleagues! Congratulations on the upcoming Labor Day. We wish you success in your work, good health, and many years of professional growth. Thank you for your hard work and dedication!"
-  },
-  {
-    "title": "Payment Reminder",
-    "message": "Dear Customer! This is a reminder to pay your outstanding invoice by the end of this month to avoid additional charges and delays. Thank you for your attention to this matter."
-  },
-  {
-    "title": "Important Security Information",
-    "message": "Hello! We would like to draw your attention to important security measures in our area. Please be vigilant and keep an eye on your personal belongings. Together, we can ensure the safety of all residents."
-  },
-  {
-    "title": "Call for Environmental Awareness",
-    "message": "Hi! We urge you to pay attention to your environmental habits and make small changes in your daily life to protect our planet. Even small actions can make a big difference. Let's act together!"
-  },
-  {
-    "title": "Important Vaccination Information",
-    "message": "Dear Residents! We remind you of the importance of vaccination against various diseases, especially in the current epidemic situation. Please consult with your doctor and undergo the necessary vaccination procedures. Your health is our priority."
-  }
+    {
+        "id": "20896589-7f34-4dd4-8bf9-52aacc39f28a",
+        "name": "Emily",
+        "surname": "Johnson",
+        "verify": false,
+        "links": []
+    },
+    {
+        "id": "0a5cb9e8-ab9c-436b-87d0-569f60a0b862",
+        "name": "Michael",
+        "surname": "Brown",
+        "verify": false,
+        "links": [],
+        "address": {
+            "city": "Moscow",
+            "street": "Lenina 18",
+            "house_number": "4"
+        }
+    },
+    {
+        "id": "fb2f5990-0d8d-482b-b764-41287f9639c2",
+        "name": "James",
+        "surname": "Martinez",
+        "verify": false,
+        "links": []
+    },
+    {
+        "id": "3d597d96-253f-4d7c-8f9e-d5dc987c5678",
+        "name": "Ava",
+        "surname": "Thomas",
+        "verify": false,
+        "links": [],
+        "address": {
+            "city": "Berlin",
+            "street": "Liivalaia",
+            "house_number": "27"
+        }
+    },
+    {
+        "id": "31efee5b-04eb-4860-bc67-cdf57d58295a",
+        "name": "William",
+        "surname": "Anderson",
+        "verify": false,
+        "links": []
+    }
 ]

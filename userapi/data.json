@@ -3,13 +3,15 @@
     "id": "20896589-7f34-4dd4-8bf9-52aacc39f28a",
     "name": "Emily",
     "surname": "Johnson",
-    "verify": false
+    "verify": false,
+    "links": []
   },
   {
     "id": "0a5cb9e8-ab9c-436b-87d0-569f60a0b862",
     "name": "Michael",
     "surname": "Brown",
     "verify": false,
+    "links": [],
     "address": {
       "city": "Moscow",
       "street": "Lenina 18",
@@ -20,13 +22,15 @@
     "id": "fb2f5990-0d8d-482b-b764-41287f9639c2",
     "name": "James",
     "surname": "Martinez",
-    "verify": false
+    "verify": false,
+    "links": []
   },
   {
     "id": "3d597d96-253f-4d7c-8f9e-d5dc987c5678",
     "name": "Ava",
     "surname": "Thomas",
     "verify": false,
+    "links": [],
     "address": {
       "city": "Berlin",
       "street": "Liivalaia",
@@ -37,6 +41,14 @@
     "id": "31efee5b-04eb-4860-bc67-cdf57d58295a",
     "name": "William",
     "surname": "Anderson",
-    "verify": false
+    "verify": false,
+    "links": []
+  },
+  {
+    "id": "f8bf8421-b746-4e77-ac35-90144026137f",
+    "surname": "Butcher",
+    "name": "Billy",
+    "verify": false,
+    "links": []
   }
 ]

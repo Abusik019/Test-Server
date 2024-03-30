@@ -60,28 +60,36 @@ const server = http.createServer((req, res) => {
                 );
         }
 
-        if(query.street || query.city){
+        if (query.street || query.city) {
             res.writeHead(200);
-            
-            res.end(JSON.stringify(copyData.filter(user => {
-                if(query.street !== undefined && query.city !== undefined){
-                    return user.address?.street === query.street && user.address?.city === query.city
-                }else if(query.street !== undefined){
-                    return user.address?.street === query.street;
-                }else if (user.address?.city !== undefined){
-                    return user.address?.city === query.city;
-                }else {
-                    return false
-                }
-            })))
+
+            res.end(
+                JSON.stringify(
+                    copyData.filter((user) => {
+                        if (
+                            query.street !== undefined &&
+                            query.city !== undefined
+                        ) {
+                            return (
+                                user.address?.street === query.street &&
+                                user.address?.city === query.city
+                            );
+                        } else if (query.street !== undefined) {
+                            return user.address?.street === query.street;
+                        } else if (user.address?.city !== undefined) {
+                            return user.address?.city === query.city;
+                        } else {
+                            return false;
+                        }
+                    })
+                )
+            );
 
             return;
         }
 
         res.writeHead(200);
         res.end(JSON.stringify(copyData));
-
-
     } else if (method === "DELETE" && pathname === "/") {
         const { id } = query;
 
@@ -117,20 +125,26 @@ const server = http.createServer((req, res) => {
                     Buffer.concat(body).toString()
                 );
 
-                if (name || surname) {
-                    // const newUser = {
-                    //     id: +id,
-                    //     name: name ?? "",
-                    //     surname: surname ? surname : "",
-                    //     verify: false
-                    // }
+                // Change user data
+                const existingUser = data.find((item) => item.id === id);
 
-                    // findIndex(data, id)
-                    // data.push(newUser)
-                    // Надо исправить редактирование с использованием старых данных, если не передаются новые
+                if (name || surname) {
+                    const newUser = {
+                        id: id,
+                        name: name ?? existingUser.name,
+                        surname: surname ?? existingUser.surname,
+                        verify: false,
+                    };
+
+                    const copyData = [...data],
+                        filteredData = copyData.filter(
+                            (item) => item.id !== id
+                        );
+
+                    filteredData.push(newUser);
 
                     writeFile(
-                        JSON.stringify(data, null, 2),
+                        JSON.stringify(filteredData, null, 2),
                         res,
                         "Data file changed successfully",
                         "Data file changed successfully"
@@ -153,7 +167,8 @@ const server = http.createServer((req, res) => {
             }).on("end", () => {
                 body = Buffer.concat(body).toString();
 
-                const { verify } = JSON.parse(body),
+                // change verify property
+                const { verify, address } = JSON.parse(body),
                     itemIndex = data.findIndex((el) => el.id === +query.id);
 
                 if (itemIndex !== -1) {
@@ -172,6 +187,34 @@ const server = http.createServer((req, res) => {
                     res.end(JSON.stringify(data[itemIndex]));
 
                     return;
+                }
+
+                // add address to user
+                const existingUser = data.find((item) => item.id === query.id);
+
+                const copyData = [...data],
+                    filteredData = copyData.filter(
+                        (item) => item.id !== query.id
+                    );
+
+                if (address) {
+                    const newUser = {
+                        ...existingUser,
+                        address: {
+                            city: address.city ?? "none",
+                            street: address.street ?? "none",
+                            house_number: address.house_number ?? "none",
+                        },
+                    };
+
+                    filteredData.push(newUser);
+
+                    writeFile(
+                        JSON.stringify(filteredData, null, 2),
+                        res,
+                        "Data file changed successfully",
+                        "Data file changed successfully"
+                    );
                 }
 
                 res.writeHead(204);
@@ -215,14 +258,13 @@ const server = http.createServer((req, res) => {
                 res.end("Invalid data");
             }
 
-            data.push(
-                { 
-                    id: uuidv4(), 
-                    surname, 
-                    name,
-                    verify: false,
-                }
-            );
+            data.push({
+                id: uuidv4(),
+                surname,
+                name,
+                verify: false,
+                links: [],
+            });
 
             writeFile(
                 JSON.stringify(data, null, 2),
@@ -231,6 +273,63 @@ const server = http.createServer((req, res) => {
                 "Data file changed successfully"
             );
         });
+    } else if (method === "POST" && pathname === "/link") {
+        const { userId, linkedUserId } = query;
+
+        if (!userId || !linkedUserId) {
+            res.writeHead(400);
+            res.end("Missing userId or linkedUserId");
+            return;
+        }
+
+        const userIndex = data.findIndex((el) => el.id === userId);
+        const linkedUserIndex = data.findIndex((el) => el.id === linkedUserId);
+
+        if (userIndex === -1 || linkedUserIndex === -1) {
+            res.writeHead(404);
+            res.end("User or linkedUser not found");
+            return;
+        }
+
+        data[userIndex].links.push(linkedUserId);
+        data[linkedUserIndex].links.push(userId);
+
+        writeFile(
+            JSON.stringify(data, null, 2),
+            res,
+            "Data file changed successfully",
+            "Data file changed successfully"
+        );
+    } else if (method === "DELETE" && pathname === "/unlink") {
+        const { userId, unlinkedUserId } = query;
+
+        if (!userId || !unlinkedUserId) {
+            res.writeHead(400);
+            res.end("Missing userId or linkedUserId");
+            return;
+        }
+
+        const userIndex = data.findIndex((el) => el.id === userId);
+        const unlinkedUserIndex = data.findIndex((el) => el.id === unlinkedUserId);
+
+        if (userIndex === -1 || unlinkedUserIndex === -1) {
+            res.writeHead(404);
+            res.end("User or linkedUser not found");
+            return;
+        }
+
+        data[userIndex].links = [];
+        data[unlinkedUserIndex].links = [];
+
+        writeFile(
+            JSON.stringify(data, null, 2),
+            res,
+            "Data file changed successfully",
+            "Data file changed successfully"
+        );
+    } else {
+        res.writeHead(404);
+        res.end("Endpoint not found");
     }
 });
 
